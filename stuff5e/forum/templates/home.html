@@ -1,0 +1,32 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+
+<h1>
+	<u>Posts</u><hr/>
+	{% if user.is_authenticated %}
+		<a type="button" href="{% url 'add-post' %}" class="btn btn-dark btn-sm">Add Post</a>
+		<br/>
+	{% endif %}
+</h1>
+
+<ul>
+{% for post in object_list %}
+	<a href="{% url 'article-detail' post.pk %}">
+	{{ post.title }} </a> - 
+	<a href="{% url 'category' post.category %}"><i>{{ post.category }}</i></a> -
+	{{ post.author }} - {{ post.post_date }} 
+	{% if user.is_authenticated and post.author.id == user.id %}
+	- <a href="{% url 'update-post' post.pk %}"> <small> [Edit] </small> </a>
+	<a href="{% url 'delete-post' post.pk %}"> <small> [Delete] </small> </a>
+	{% endif %}
+	<br/>
+		<hr/>
+	
+{% endfor %}
+</ul>
+
+
+	
+{% endblock %}

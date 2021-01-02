@@ -1,0 +1,27 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+	<h1>Add Comment...</h1>
+
+	<div class="form-group">
+		<form method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ form.as_p }}
+		
+			<button class="btn btn-secondary"> Comment </button>
+	</div>
+
+	<script>
+		var name = "{{ user.username }}"
+		document.getElementById("usr_get").value = name;
+	</script>
+	
+{% else %}
+	
+	You shall not pass!
+	
+{% endif %}
+
+{% endblock %}
