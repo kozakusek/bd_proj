@@ -1,0 +1,26 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+	<h1>Account Settings...</h1>
+	
+	<br/><br/>
+
+	<div class="form-group">
+		<table>
+		<form method="POST">
+			{% csrf_token %}
+			{{ form.as_p }}
+		</table>
+			<a href="{% url 'change-password' %}" class="btn btn-outline-primary">Change Password</a><br/> <br/>
+			<button class="btn btn-secondary"> Edit </button>
+	</div>
+	
+{% else %}
+	
+	You shall not pass!
+	
+{% endif %}
+
+{% endblock %}
