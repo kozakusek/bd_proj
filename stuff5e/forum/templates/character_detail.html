@@ -1,0 +1,63 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+{% for u in character.user_access.values %}
+{% if u.id == user.id %}
+	<div class="card text-danger border-danger bg-dark mx-auto">
+	  <div class="card-header"><strong><h1 class="display-3"> {{character.name}}</h1> The {{character.race}} {{character.starting_class}}</strong></div>
+	  <div class="card-body">
+		<div class="row">
+		  <div class="col-md-8">
+			<h1 class="card-title">Backstory</h1>
+				{{character.story|safe}}
+		  </div>
+		  <div class="col-md-4 ms-auto">
+			<h3 class="card-title">Feats</h3>
+			<ul>
+				{% for feat in character.feats.values %}
+					<li><h5> {{feat.name}} </h5></li>
+					<small class="card-text">{{feat.desc|safe}}</small>
+				{% endfor %}
+			</ul>	
+			
+			<hr/>
+			<h3 class="card-title">Spells</h3>
+			<ul>
+			{% for spell in character.spells.values %}
+					<li><strong> {{spell.name}} </strong> <small><i>
+					{% if spell.level == 0 %} {{  spell.school }} Cantrip 
+							{% else %} {{ spell.level }}<!--
+							 -->{% if spell.level == 1 %}st<!-- 
+							 -->{% elif spell.level == 2 %}nd<!--
+							 -->{% elif spell.level == 3 %}rd<!--
+							 -->{% else %}th{% endif %}-level
+								{{  spell.school }} {% endif %}
+					</i></small></li>
+					<small class="card-text">{{spell.desc|safe}}</small>
+			{% endfor %}
+			</ul>
+			<hr/>
+		  </div>
+		  
+				
+		</div>
+
+		
+	  </div>
+	</div>
+
+	
+
+{% endif %}
+{% endfor %}
+{% else %}
+
+	<div class="card text-white bg-danger mx-auto" style="max-width: 18rem;">
+	<div class="card-header">You shall not pass!</div>
+	</div>
+	
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+
+<div class="card border-info mx-auto" >
+  <div class="card-header"><h1 class="display-2">{{ user.username }}'s PCs</h1></div>
+  <div class="card-body">
+	<table class="table">
+	  <thead class="table-dark">
+		<tr>
+		  <th scope="col">Name</th>
+		  <th scope="col">Race</th>
+		  <th scope="col">Class</th>
+		  <th scope="col">View</th>
+		  <th scope="col">Edit</th>
+		  <th scope="col">Delete</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		{% for ch in characters %} {% if ch.author.id == user.id %}
+		<tr>
+		  <th scope="row">{{ ch.name }}</th>
+		  <td>{{ ch.race }}</td>
+		  <td>{{ ch.starting_class }}</td>
+		  <td><a href="{% url 'det_characters_v' ch.pk%}" class="btn btn-secondary  btn-sm" role="button">Clink</a></td>
+		  <td><a href="{% url 'up_characters_v' ch.pk%}" class="btn btn-light btn-outline-dark  btn-sm" role="button">Clank</a></td>
+		  <td><a href="{% url 'del_characters_v' ch.pk%}" class="btn btn-danger btn-sm" role="button">Clonk</a></td>
+		</tr>
+		{% endif %}{% endfor %}
+	  </tbody>
+	</table>
+  
+  
+  </div>
+</div>
+
+<br/><p style="text-align:right;"><a type="button" href="{% url 'cr_characters_v' %}" class="btn btn-dark btn-outline-danger">Create New Character</a></p>
+
+
+{% else %}
+
+<div class="card text-dark bg-info mx-auto" style="max-width: 30rem">
+  <div class="card-header"><h1>Only logged in users can view their characters</h1></div>
+  <div class="card-body">
+    <h5 class="card-title">Log in here:</h5>
+		<a href="{% url 'login' %}" type="button" class="btn btn-success">Click</a>
+  </div>
+</div>
+
+{% endif %}
+
+	
+{% endblock %}

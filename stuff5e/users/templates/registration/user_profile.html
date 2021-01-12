@@ -1,0 +1,54 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+
+
+<h1>User Profile</h1>
+
+<br/>
+
+<div class="card mb-3">
+  <div class="row g-0">
+    <a href="{% url 'show-profile-page' page_user.id %}">
+		{% if page_user.profile_pic %} 
+		<img class="card-img-left" src="{{ page_user.profile_pic.url }}" width=130 height=130>
+		{% else %}
+		<img src="{% static 'forum/images/default_profile_pic.png' %}" width=130 height=130>
+		{% endif %} 
+	</a>
+    
+    <div class="col-md-10">
+      <div class="card-body">
+        <h5 class="card-title">{{page_user}}</h5>
+		<p class="small text-muted">
+			{% if page_user.website_url %}
+			<a href="{{ page_user.website_url }}">Webstie</a> |
+			{% else %} Website |
+			{% endif %}
+			{% if page_user.facebook_url %}
+			<a href="{{ page_user.facebook_url.url }}">Facebook</a> |
+			{% else %} Facebook |
+			{% endif %}
+			{% if page_user.twitter_url %}
+			<a href="{{page_user.twitter_url }}">Twitter</a> |
+			{% else %} Twitter |
+			{% endif %}
+			{% if page_user.github_url %}
+			<a href="{{ page_user.github_url }}">Github</a> |
+			{% else %} Github |
+			{% endif %}
+			{% if page_user.roll20_url %}
+			<a href="{{ page_user.roll20_url }}">Roll20</a>
+			{% else %} Roll20
+			{% endif %}
+		</p>
+        <p class="card-text">{{ page_user.bio }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+	
+{% endblock %}

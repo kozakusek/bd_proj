@@ -1,0 +1,110 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+
+<h1>{{ post.title }} </h1>
+<small> By {{post.author}}  - {{ post.post_date }}</small>
+
+{% if user.is_authenticated and post.author.id == user.id  %}
+	<a href="{% url 'update-post' post.pk %}"> <small> [Edit] </small> </a>
+	<a href="{% url 'delete-post' post.pk %}"> <small> [Delete] </small> </a>
+{% endif %}
+<br/>
+<small>Cat: <a href="{% url 'category' post.category %}"><i>{{ post.category }}</i></a></small>
+<hr>
+{% if post.header_image %}
+<img src="{{ post.header_image.url }}"> <br/>
+{% endif %}
+
+<div class="card bg-light mb-3">
+  <div class="card-body">
+		{{ post.body|safe }}
+  </div>
+  
+   <div class="card-footer bg-transparent border-success">
+	<form action="{% url 'like-post' post.pk %}" method="POST">
+	{% csrf_token %}
+	
+	{% if user.is_authenticated %}
+		{% if liked %}
+		<button type="submit", name="post-id", value="{{ post.id }}", class="btn btn-danger btn-sm">Unlike</button>
+		{% else %}
+		<button type="submit", name="post-id", value="{{ post.id }}", class="btn btn-primary btn-sm">Like</button>
+		{% endif %}
+	{% else %}
+		<small>You must be <a href="{% url 'login' %}"> logged in </a> to like this post ;)</small>
+	{% endif %}
+	
+	- {{ total_likes }} Like{% if total_likes != 1 %}s {% endif %}
+	
+	</form>	
+   </div>
+</div>
+
+<hr/>
+
+<div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-2"> <a href="{% url 'show-profile-page' post.author.profile.id %}">
+		{% if post.author.profile.profile_pic %} 
+		<img src="{{ post.author.profile.profile_pic.url }}" width=130 height=130>
+		{% else %}
+		<img src="{% static 'forum/images/default_profile_pic.png' %}" width=130 height=130>
+		{% endif %} </a>
+    </div>
+    <div class="col-md-10">
+      <div class="card-body">
+        <h5 class="card-title">{{post.author}}</h5>
+		<p class="small text-muted">
+			{% if post.author.profile.website_url %}
+			<a href="{{ post.author.profile.website_url }}">Webstie</a> |
+			{% else %} Website |
+			{% endif %}
+			{% if post.author.profile.facebook_url %}
+			<a href="{{ post.author.profile.facebook_url }}">Facebook</a> |
+			{% else %} Facebook |
+			{% endif %}
+			{% if post.author.profile.twitter_url %}
+			<a href="{{ post.author.profile.twitter_url }}">Twitter</a> |
+			{% else %} Twitter |
+			{% endif %}
+			{% if post.author.profile.github_url %}
+			<a href="{{ post.author.profile.github_url }}">Github</a> |
+			{% else %} Github |
+			{% endif %}
+			{% if post.author.profile.roll20_url %}
+			<a href="{{ post.author.profile.roll20_url }}">Roll20</a>
+			{% else %} Roll20
+			{% endif %}
+		</p>
+        <p class="card-text">{{ post.author.profile.bio | slice:":300" }} {% if post.author.profile.bio|length > 300 %}...{% endif %}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br/>
+<h2>Comments</h2><hr>
+
+{% if user.is_authenticated%}
+	{% if not post.comments.all %}
+		No comments yet. <a href="{% url 'add-comment' post.pk %}">Be first</a>
+		<hr>
+	{% else %}
+		{% for comment in post.comments.all %}
+			<strong> {{ comment.author }} </strong> <small>{{ comment.date_added }}</small><br/>
+			{{ comment.body }}
+			<hr>
+		{% endfor %}
+				
+		<br/><p style="text-align:right;"><a type="button" href="{% url 'add-comment' post.pk %}" class="btn btn-secondary btn-sm">Add Comment</a></p>
+	{% endif %}
+	
+{% else %}
+	You need to be logged in to see the comments section. <a href="{% url 'login' %}"> Log in </a> 
+	<hr>
+{% endif %}	
+<br/><br/>
+
+{% endblock %}

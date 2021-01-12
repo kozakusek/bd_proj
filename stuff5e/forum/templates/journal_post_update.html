@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+{% for journal in model %}
+{% for x in journal.user_access.values %}
+{% if x.id == user.id %}
+
+	<div class="card text-white bg-secondary mx-auto" style="max-width: 55rem;">
+	  <div class="card-header"><h1>Edit JPost</h1></div>
+	  <div class="card-body">
+	  
+		<div class="form-group">
+			<form method="POST">
+				{% csrf_token %}
+				{{ form.media }}
+				{{ form.as_p }}
+	
+			<button class="btn btn-dark"> Edit </button>
+		</div>
+
+	  </div>
+	</div>
+	
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% else %}
+	
+	<div class="card text-white bg-danger mx-auto" style="max-width: 18rem;">
+	<div class="card-header">You shall not pass!</div>
+	</div>
+	
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+{% if user.is_authenticated and user.id == profile.user.id %}
+	<h1>Edit Profile</h1>
+
+	<div class="form-group">
+		<form method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ form.as_p }}
+		
+			<button class="btn btn-secondary"> Update </button>
+	</div>
+
+	
+{% else %}
+	
+	<div class="card text-white bg-danger mx-auto" style="max-width: 18rem;">
+	<div class="card-header">You shall not pass!</div>
+	</div>
+	
+{% endif %}
+
+{% endblock %}

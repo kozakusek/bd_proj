@@ -1,0 +1,44 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+{% if posts %}
+
+<div class="card bg-light mb-3">
+  <div class="card-header"><h1>Posts in category: {{ cat }}</h1></div>
+	<div class="card-body">
+		<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">Title</th>
+					<th scope="col">Title</th>
+					<th scope="col">Title</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+				{% for post in posts %}
+					<tr>
+						<th scope="row"> <a href="{% url 'article-detail' post.pk %}"> {{ post.title }} </a> </td>
+						<td> {{ post.author }}    </td>
+						<td> {{ post.post_date }} </td>
+					</tr>
+				{% endfor %}
+				
+			</tbody>			
+		
+	
+		</table>
+	</div>
+</div>
+
+
+
+{% else %}
+
+<h3>Sorry, this page does not exist... :(</h3>
+
+{% endif %}
+
+	
+{% endblock %}

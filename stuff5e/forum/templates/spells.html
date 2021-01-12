@@ -1,0 +1,106 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+<div class="card text-white bg-dark mx-auto" style="max-width: 20rem;">
+  <div class="card-header">
+    <h1 style="text-align:center;">Spell List</h1>
+  </div>
+</div>
+
+<br/>
+
+<div class="card text-white bg-dark mx-auto">
+  <div class="card-body">
+		<form method="GET">
+			{{  filter.form }}
+			<button class="btn btn-secondary" type="submit">Search</button>
+		</form>	
+	</div>	
+		
+  
+</div>
+
+<br/>
+
+{% if user.is_authenticated  %}
+<a href="{% url 'cr_spells_v' %}" class="btn btn-secondary">Add Custom</a>
+<br/>
+{% endif %}
+
+<table class="table table-striped table-dark">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Level</th>
+      <th scope="col">Time</th>
+      <th scope="col">School</th>
+	  <th scope="col">C.</th>
+	  <th scope="col">Range</th>
+	  <th scope="col">Details</th>
+	  
+    </tr>
+  </thead>
+  <tbody>
+  
+	{% for spell in spells %}
+    <tr>
+      <th scope="row">{{ spell.name }}</th>
+      <td> {% if spell.level == 0 %}Cantrip {% else %} {{ spell.level }} {% endif %} </td>
+      <td> {{ spell.time }} </td>
+      <td> {{ spell.school|slice:":3" }}. </td>
+	  <td> {% if spell.concentration %} X {% endif %} </td>
+      <td> {{ spell.range }} </td>
+	  <td> <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#spellModal{{ spell.id }}">View</button></td>
+	  
+	  <div class="modal fade" id="spellModal{{ spell.id }}" tabindex="-1" aria-labelledby="spellModalLabel{{ spell.id }}" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">{{ spell.name }}</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				
+				<div class="modal-body">
+					<small><i>{% if spell.level == 0 %} {{  spell.school }} Cantrip 
+							{% else %} {{ spell.level }}<!--
+							 -->{% if spell.level == 1 %}st<!-- 
+							 -->{% elif spell.level == 2 %}nd<!--
+							 -->{% elif spell.level == 3 %}rd<!--
+							 -->{% else %}th{% endif %}-level
+								{{  spell.school }} {% endif %} </i></small><br>
+								
+					<b>Casting Time:</b> {{ spell.time }}<br>
+					<b>Range:</b> {{ spell.range }} <br>
+					<b>Components:</b> {% if spell.v %} [V] {% endif %} {% if spell.s %} [S] {% endif %} {% if spell.m %} [M({{ spell.m }})] {% endif %} <br>
+					<b>Duration:</b> {{ spell.duration }}<br>
+					
+					<hr/>
+					
+					{{ spell.desc|safe }}
+					
+					<hr/>
+					
+					<b>Classes:</b> {% for x in spell.classes.values %} {{ x.name }};  {% endfor %}
+					{% if spell.custom %}<br> Author: <i> {{spell.author.username}} {% endif %} </i>
+					
+					{% if user.is_authenticated and spell.author == user %}
+					<div class="modal-footer">
+						<a href="{% url 'del_spells_v' spell.pk %}"> <small> [Delete] </small> </a>
+					</div>
+					{% endif %}
+				</div>
+				
+			</div>
+		</div>
+	  </div>
+	  
+    </tr>
+	{% endfor %}
+  
+  </tbody>
+</table>
+
+
+	
+{% endblock %}

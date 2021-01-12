@@ -1,0 +1,59 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+<div class="card text-white bg-secondary mb-3" style="max-width: 50rem;">
+  <div class="card-header"><h1 class="display-1">{{ user.username }}'s journals</h1></div>
+</div>
+
+<table class="table table-success table-striped"  style="max-width: 50rem;">
+	<caption><a href="{% url 'cr_journals_v'%}" class="btn btn-dark btn-sm" role="button">New</a></caption>
+	<thead><tr>
+		<th scope="col">Title</th>
+		<th scope="col">Posts</th>
+		<th scope="col">Users</th>
+		<th scope="col">Edit</th>
+		<th scope="col">Delete</th>
+	</tr></thead>
+	<tbody>
+		{% for journal in model %}
+			{% if journal.author.id == user.id %}
+				<tr>
+					<th scope="row"> <a href="{% url 'det_journal' journal.pk %}"> {{ journal.title }} </a></th>
+					<td>{% for y in journal_posts %} {% if journal.id == y.id %}{{y.journal_posts__count}}{%endif%} {% endfor %}</td>
+					<td>{% for y in journal_users %} {% if journal.id == y.id %}{{y.user_access__count}}{%endif%} {% endfor %}</td>
+					<td><a href="{% url 'up_journals_v' journal.pk %}" class="btn btn-primary  btn-sm" role="button">Click</a></td>
+					<td><a href="{% url 'del_journals_v' journal.pk %}" class="btn btn-danger  btn-sm" role="button">Click</a></td>
+				</tr>
+			{% else %}
+				{% for x in journal.user_access.values %}
+					{% if x.id == user.id %}
+						<tr>
+							<th scope="row"> <a href="{% url 'det_journal' journal.pk %}"> {{ journal.title }} </a></th>
+							<td>{% for y in journal_posts %} {% if journal.id == y.id %}{{y.journal_posts__count}}{%endif%} {% endfor %}</td>
+							<td>{% for y in journal_users %} {% if journal.id == y.id %}{{y.user_access__count}}{%endif%} {% endfor %}</td>
+							<td><a href="{% url 'up_journals_v' journal.pk %}" class="btn btn-primary  btn-sm" role="button">Click</a></td>
+							<td><a href="{% url 'del_journals_v' journal.pk %}" class="btn btn-danger  btn-sm" role="button">Click</a></td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			{% endif %}	
+		{% endfor %}
+	</tbody>
+</table>
+
+{% else %}
+
+<div class="card text-dark bg-info mx-auto" style="max-width: 30rem">
+  <div class="card-header"><h1>Only logged in users can view their journals</h1></div>
+  <div class="card-body">
+    <h5 class="card-title">Log in here:</h5>
+		<a href="{% url 'login' %}" type="button" class="btn btn-success">Click</a>
+  </div>
+</div>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+	<div class="card text-dark bg-info mx-auto" style="max-width: 35rem;">
+		<div class="card-header"><h1>Log in?</h1></div>
+	
+		<div class="card-body">
+			<h5>You should log out first :/</h5>
+		</div>
+	</div>
+		
+	
+{% else %}
+
+<br/>
+<div class="form-group">
+	<form method="POST">
+		{% csrf_token %}
+		
+		<div class="card text-white bg-success mx-auto" style="max-width: 18rem">
+			<div class="card-header"><h1>Login</h1></div>
+			<div class="card-body">
+			
+				<div class="form-group">
+					<input type="text" name="username" class="form-control" placeholder="Username">
+				</div><br/>
+				
+				<div class="form-group">
+					<input type="password" name="password" class="form-control" placeholder="Password">
+				</div><br/>
+				
+				<button class="btn btn-primary"> Login </button>
+				<br/>
+				Not registered? Sign Up <a href="{% url 'register'%}">Here</a>.
+			</div>
+	</div>
+		
+</div>
+
+</form>
+
+{% endif %}
+
+
+
+{% endblock %}

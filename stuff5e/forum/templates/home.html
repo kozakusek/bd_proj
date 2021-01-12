@@ -1,0 +1,74 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+
+<div class="card bg-light mb-3">
+  <div class="card-header"><h1>Posts</h1></div>
+  <div class="card-body">
+  {% if user.is_authenticated %}
+    <h5 class="card-title">
+		
+		<a type="button" href="{% url 'add-post' %}" class="btn btn-dark btn-sm">Add New Post</a>
+		<br/>
+		
+	</h5>
+  {% endif %}
+	
+	
+		<div class="card-header">
+		<table class="table">
+		  <thead class="thead-dark">
+			<tr>
+				<th scope="col">Title</th>  
+				<th scope="col">Category</th>  
+				<th scope="col">Author</th>  
+				<th scope="col">Publication</th>
+				<th scope="col">Edit</th>
+				<th scope="col">Delete</th>
+			</tr>
+		  </thead>	
+		  <tbody>
+			  {% for post in object_list %}
+				<tr>
+					<th scope="row"><a href="{% url 'article-detail' post.pk %}"> {{ post.title }} </a> </th>
+				
+					<td><a href="{% url 'category' post.category %}"><i>{{ post.category }}</i></a></td>
+				
+					<td>{{ post.author }} </td>
+				
+					<td>{{ post.post_date }} </td>
+				
+					{% if user.is_authenticated and post.author.id == user.id %}
+					
+						<td>
+						<a href="{% url 'update-post' post.pk %}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true"> 
+							Edit </a></td>
+						<td> <a href="{% url 'delete-post' post.pk %}" class="btn btn-warning  btn-sm active" role="button" aria-pressed="true"> 
+							Delete</a></td>
+						
+					{% else %}
+
+						<td><a href="{% url 'update-post' post.pk %}" class="btn btn-primary  btn-sm disabled" role="button"> 
+							Edit </a></td>
+						<td> <a href="{% url 'delete-post' post.pk %}" class="btn btn-warning btn-sm disabled" role="button"> 
+							Delete	</a></td>
+						
+					{% endif %}
+
+				</tr>
+			  {% endfor %}
+			
+		</tbody>	
+			</table>
+		</div>
+		
+  </div>
+</div>
+
+
+
+
+
+	
+{% endblock %}

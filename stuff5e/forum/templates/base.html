@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <title>5eStuff</title>
+	
+	<style>
+		body {
+			background-color: #b0b0c0
+		}
+	</style>
+  </head>
+  
+  <body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'index'%}">5eStuff</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+	  	  
+		<li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'spells_v' %}">Spells</a>
+        </li>
+		
+		<li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'feats_v' %}">Feats</a>
+        </li>
+		
+		<li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'races_v' %}">Races</a>
+        </li>
+		
+		<li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'classes_v' %}">Classes</a>
+        </li>
+		
+		<li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Forum</a>
+        </li>
+	  
+		{% if user.is_authenticated %}
+		
+		<li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'journals_v' %}">Journals</a>
+        </li>
+		
+		<li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'characters_v' %}">Characters</a>
+        </li>
+			
+		{% endif %}
+      </ul>
+	  
+    </div>
+  </div>
+  
+  <ul class="navbar-nav">
+	  {% if user.is_authenticated %}
+		<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ user.username }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDarkDropdownMenuLink">
+            <li><a class="dropdown-item" href="{% url 'edit-profile' %}">Settings</a></li>
+			{% if user.profile.id %}
+            <li><a class="dropdown-item" href="{% url 'show-profile-page' user.profile.id %}">Profile</a></li>
+			<li><a class="dropdown-item" href="{% url 'edit-profile-page' user.profile.id %}">Edit Profile</a></li>
+			{% else %}
+			<li><a class="dropdown-item" href="{% url 'create-profile-page' %}">Create Profile</a></li>
+			{% endif %}
+			<li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+		  </ul>
+        </li>
+	   {% else %}
+		<li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Login</a>
+        </li>
+		
+	   <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'register' %}">Register</a>
+        </li>
+	   {% endif %}
+	</ul>
+</nav>
+
+	<br/>
+	<div class="container">
+	{% block content %}
+	{% endblock %}
+	</div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>

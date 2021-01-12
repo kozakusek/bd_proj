@@ -1,0 +1,30 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+	<h1>Create Custom Feat</h1>
+
+	<div class="form-group">
+		<form method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ form.media }}
+			{{ form.as_p }}
+		
+			<button class="btn btn-dark"> Create </button>
+	</div>
+	
+	<script>
+		var name = "{{ user.id }}"
+		document.getElementById("usr_get").value = name;
+	</script>
+	
+{% else %}
+	
+	<div class="card text-white bg-danger mx-auto" style="max-width: 18rem;">
+	<div class="card-header">You shall not pass!</div>
+	</div>
+	
+{% endif %}
+
+{% endblock %}

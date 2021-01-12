@@ -1,0 +1,46 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+{% for journal in model %}
+{% for x in journal.user_access.values %}
+{% if x.id == user.id %}
+			
+	<div class="card text-white bg-dark mx-auto">
+		<div class="card-header"><h1 class="display-4">{{journal.title}}</h1></div>
+		<div class="card-body">
+			{{journal.desc|safe}}
+			<p class="card-text"><small><b>Coordinator:</b> <i>{{journal.author}}</i></small></p>
+		</div> 
+		
+		<div class="card-body">
+			{% for post in journal_posts.values %}
+				<hr/>
+				<h3>{{ post.title }}</h3>
+				<small>{{post.date_added}}</small><br/><br/>
+				<div class="card-footer">
+				{{post.body|safe}}
+				</div>
+				<a type="button" href="{% url 'up_journalpost_v' journal.pk post.id  %}" class="btn btn-info btn-sm">Edit</a>
+				<a type="button" href="{% url 'del_journalpost_v' journal.pk post.id  %}" class="btn btn-warning btn-sm">Delete</a>
+			{% endfor %}
+		</div>
+		
+		<div class="card-footer">
+			  <a type="button" href="{% url 'cr_journalpost_v' journal.pk %}" class="btn btn-primary">Add A New One</a>
+		</div>
+	</div>		
+		
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% else %}
+
+	<div class="card text-white bg-danger mx-auto" style="max-width: 18rem;">
+	<div class="card-header">You shall not pass!</div>
+	</div>
+	
+{% endif %}
+
+{% endblock %}
