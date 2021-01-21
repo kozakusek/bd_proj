@@ -78,7 +78,7 @@ class Class(models.Model):
 class Spell(models.Model):
     name = models.CharField(max_length=100, unique=True)
     level = models.IntegerField(choices = [(0, '0'), (1,'1'), (2,'2'), (3,'3'), (4,'4'), (5,'5'), (6,'6'), (7,'7'), (8,'8'), (9,'9')])
-    time = models.CharField(max_length=100, choices = [('24 Hours','24 Hours'),('12 Hours','12 Hours'),('8 Hours','8 Hours'),('1 Hour','1 Hour'),('10 Minutes', '10 Minutes'),('1 Minute','1 Minute'),('Action','Action'),('Reaction','Reaction'),('Bonus','Bonus')])
+    time = models.CharField(max_length=100, default='Action', choices = [('24 Hours','24 Hours'),('12 Hours','12 Hours'),('8 Hours','8 Hours'),('1 Hour','1 Hour'),('10 Minutes', '10 Minutes'),('1 Minute','1 Minute'),('Action','Action'),('Reaction','Reaction'),('Bonus','Bonus')])
     school = models.CharField(max_length=100, choices = [('Abjuration','Abjuration'),('Conjuration','Conjuration'),('Divination','Divination'),('Enchantment','Enchantment'),('Evocation','Evocation'),('Illusion','Illusion'),('Necromancy','Necromancy'),('Transmutation', 'Transmutation')])
     concentration = models.BooleanField(default=False)
     ritual = models.BooleanField(default=False)
@@ -86,7 +86,7 @@ class Spell(models.Model):
     v = models.BooleanField(default=False)
     s = models.BooleanField(default=False)
     m = models.CharField(max_length=100, null=True, blank=True)
-    duration = models.CharField(max_length=100, choices = [('Instantaneous','Instantaneous'),('1 Round','1 Round'),('1 Minute','1 Minute'), ('10 Minutes','10 Minutes'),('1 Hour','1 Hour'), ('8 Hours','8 Hours'), ('24 Hours','24 Hours'), ('Special','Special'), ('Permament','Permament')])
+    duration = models.CharField(max_length=100, default='Instantaneous', choices = [('Instantaneous','Instantaneous'),('1 Round','1 Round'),('1 Minute','1 Minute'), ('10 Minutes','10 Minutes'),('1 Hour','1 Hour'), ('8 Hours','8 Hours'), ('24 Hours','24 Hours'), ('Special','Special'), ('Permament','Permament')])
     desc = RichTextField(blank=True, null=True)
     classes = models.ManyToManyField(Class, related_name='class_spells')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -126,7 +126,7 @@ class Race(models.Model):
 class Character(models.Model):
     name = models.CharField(max_length=100)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    race = models.CharField(max_length=100)
+    race = models.ForeignKey(Race, default="Human", on_delete=models.SET_DEFAULT)
     story = RichTextField(blank=True, null=True)
     starting_class =  models.ForeignKey(Class, on_delete=models.SET_NULL, null=True)
     feats = models.ManyToManyField(Feat, related_name='character_feats', blank=True)

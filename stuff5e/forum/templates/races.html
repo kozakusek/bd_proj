@@ -54,6 +54,7 @@
 				
 				<div class="modal-body">			
 					<b>Size:</b> {{ race.size }}<br>
+					<b>Speed:</b> {{ race.speed }}ft.<br>
 					<b>Bonuses:</b> {% for x in race.bonuses.values %} {{x.name}}({{x.value}}) {% endfor %} <br>
 					
 					<hr/>

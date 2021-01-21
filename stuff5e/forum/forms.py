@@ -1,5 +1,7 @@
 from django import forms
 from .models import *
+from django.contrib.auth.models import User
+from chosen import forms as chosenforms
 
 choices = Category.objects.all().values_list('name', 'name')
 
@@ -43,7 +45,7 @@ class SpellForm(forms.ModelForm):
             'm': forms.TextInput(attrs={'class': 'form-control'}), 
             'duration': forms.Select(attrs={'class': 'form-control'}),
             'desc': forms.Textarea(attrs={'class': 'form-control'}),
-            'classes': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            'classes': chosenforms.ChosenSelectMultiple(attrs={'class': 'form-control'}),
             'author': forms.TextInput(attrs={'class': 'form-control', 'value':'', 'id':'usr_get', 'type':'hidden'}),
             'custom': forms.CheckboxInput(attrs={'class': 'form-control', 'value':'True', 'type':'hidden'})
         }
@@ -98,7 +100,7 @@ class JournalForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'desc': forms.Textarea(attrs={'class': 'form-control'}),
             'author': forms.TextInput(attrs={'class': 'form-control', 'value':'', 'id':'usr_get', 'type':'hidden'}),
-            'user_access': forms.SelectMultiple(attrs={'class': 'form-control','value':'', 'id':'usr_get2'}),
+            'user_access': chosenforms.ChosenSelectMultiple(attrs={'class': 'form-control','value':'', 'id':'usr_get2'}),
         }
         
 class JournalPostForm(forms.ModelForm):
@@ -118,12 +120,12 @@ class CharacterForm(forms.ModelForm):
         
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),    
-            'race': forms.Select(attrs={'class': 'form-control'}),    
-            'starting_class': forms.Select(attrs={'class': 'form-control'}),    
+            'race': chosenforms.ChosenSelect(attrs={'class': 'form-control'}),   
+            'starting_class': chosenforms.ChosenSelect(attrs={'class': 'form-control'}),    
             'story': forms.Textarea(attrs={'class': 'form-control'}),
-            'feats': forms.SelectMultiple(attrs={'class': 'form-control'}),
-            'spells': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            'feats': chosenforms.ChosenSelectMultiple(attrs={'class': 'form-control'}),
+            'spells': chosenforms.ChosenSelectMultiple(attrs={'class': 'form-control'}),
             'author': forms.TextInput(attrs={'class': 'form-control', 'value':'', 'id':'usr_get', 'type':'hidden'}),
-            'user_access': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            'user_access': chosenforms.ChosenSelectMultiple(attrs={'class': 'form-control'})
        }
         

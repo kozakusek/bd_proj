@@ -8,7 +8,7 @@ from .filters import *
 from django.db.models import Count
 
 def SpellsView(request):
-    spells = Spell.objects.all()
+    spells = Spell.objects.all().order_by("custom","name")
     filter = SpellFilter(request.GET, queryset=spells)
     spells = filter.qs
     
@@ -16,7 +16,7 @@ def SpellsView(request):
     return render(request, 'spells.html', context)
     
 def FeatsView(request):
-    feats = Feat.objects.all()
+    feats = Feat.objects.all().order_by("custom","name")
     filter = FeatFilter(request.GET, queryset=feats)
     feats = filter.qs
     
@@ -24,7 +24,7 @@ def FeatsView(request):
     return render(request, 'feats.html', context)
     
 def RacesView(request):
-    races = Race.objects.all()
+    races = Race.objects.all().order_by("custom","name")
     filter = RaceFilter(request.GET, queryset=races)
     races = filter.qs
     
@@ -32,7 +32,7 @@ def RacesView(request):
     return render(request, 'races.html', context)
 
 def ClassesView(request):
-    classes = Class.objects.all()
+    classes = Class.objects.all().order_by("custom","name")
     filter = ClassFilter(request.GET, queryset=classes)
     classes = filter.qs
     

@@ -7,7 +7,7 @@
 {% for x in journal.user_access.values %}
 {% if x.id == user.id %}
 		
-	<div class="card text-white border-warning bg-secondary mx-auto" style="max-width: 55rem;">
+	<div class="card text-white border-danger bg-secondary mx-auto" style="max-width: 45rem;">
 	  <div class="card-header"><h1>Delete JPost</h1></div>
       <div class="card-body">
 		<h3 class="card-title">You will delete: "{{ todelete.values.first.title }}" from {{journal.title}}</h3>
@@ -16,7 +16,7 @@
 			<form method="POST">
 				{% csrf_token %}
 				<strong>You sure?</strong><br/><br/>
-				<button class="btn btn-warning"> Delete </button>
+				<button class="btn btn-danger"> Delete </button>
 			</form>
 		</div></p>
 

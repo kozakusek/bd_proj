@@ -3,16 +3,21 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-	<h1>Create Custom Feat</h1>
-
-	<div class="form-group">
-		<form method="POST" enctype="multipart/form-data">
-			{% csrf_token %}
-			{{ form.media }}
-			{{ form.as_p }}
-		
-			<button class="btn btn-dark"> Create </button>
+	
+	<div class="card text-white bg-dark mx-auto" style="max-width: 55rem;">
+	  <div class="card-header"><h1>Create Custom Feat</h1></div>
+	  <div class="card-body">
+		<div class="form-group">
+			<form method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+				{{ form.media }}
+				{{ form.as_p }}
+			
+				<button class="btn btn-dark btn-outline-primary"> Create </button>
+		</div>
+	  </div>
 	</div>
+	
 	
 	<script>
 		var name = "{{ user.id }}"

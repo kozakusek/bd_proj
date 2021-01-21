@@ -4,7 +4,7 @@
 
 {% if user.is_authenticated and character.author.id == user.id %}
 		
-	<div class="card text-white border-warning bg-secondary mx-auto" style="max-width: 55rem;">
+	<div class="card text-dark border-dark bg-danger mx-auto" style="max-width: 55rem;">
 	  <div class="card-header"><h1>Delete Character</h1></div>
       <div class="card-body">
 		<h3 class="card-title">You will delete {{ character.name }}</h3>
@@ -13,7 +13,7 @@
 			<form method="POST">
 				{% csrf_token %}
 				<strong>Are You sure? :(</strong><br/><br/>
-				<button class="btn btn-warning"> Delete </button>
+				<button class="btn btn-dark btn-outline-danger"> Delete </button>
 			</form>
 		</div></p>
 

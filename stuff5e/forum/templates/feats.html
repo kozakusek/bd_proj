@@ -40,7 +40,7 @@
 	{% for feat in feats %}
     <tr>
       <th scope="row">{{ feat.name }}</th>
-      <td> {% for x in feat.bonuses.values %} {{x.name}}({{x.value}}) {% endfor %} </td>
+      <td> {% if feat.bonuses.values %} {% for x in feat.bonuses.values %} {{x.name}}({{x.value}}) {% endfor %} {% else %} None {% endif %} </td>
       <td> {{ feat.prerequisite|slice:":50" }} {% if feat.prerequisite|length > 50 %} ... {% endif  %} </td>
 	  <td> <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#featModal{{ feat.id }}">View</button></td>
 	  

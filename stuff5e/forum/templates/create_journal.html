@@ -3,9 +3,11 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-	<h1>New Journal</h1>
 
-	<div class="form-group">
+	<div class="card text-white bg-secondary mx-auto" style="max-width: 55rem;">
+	  <div class="card-header"><h1>New Journal</h1></div>
+	  <div class="card-body">
+		<div class="form-group">
 		<form method="POST" enctype="multipart/form-data">
 			{% csrf_token %}
 			{{ form.media }}
@@ -16,7 +18,9 @@
 			{{ form.author }}
 			<p hidden>{{ form.user_access}} </p>
 		
-			<button class="btn btn-dark"> Create </button>
+			<button class="btn btn-light btn-outline-primary"> Create </button>
+		</div>
+	  </div>
 	</div>
 	
 	<script>
